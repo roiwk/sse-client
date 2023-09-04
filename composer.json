@@ -1,0 +1,28 @@
+{
+    "name": "roiwk/sse-client",
+    "description": "Server Sent Event client",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "SSE",
+        "sse",
+        "server sent events",
+        "Server-Sent Events",
+        "SSE client"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Roiwk\\SSEClient\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "roiwk",
+            "email": "vip@roiwk.cn"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=7.0 | >=8.0"
+    }
+}
