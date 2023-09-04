@@ -110,8 +110,10 @@ class Client
                 }
                 $this->readStream($stream);
                 fclose($stream);
-            } catch (\Exception $error) {
-                call_user_func($this->onerror, $error);
+            } catch (\Exception $exception) {
+                if ($this->onerror) {
+                    call_user_func($this->onerror, $exception);
+                }
             }
             usleep(100);
         }
