@@ -10,6 +10,7 @@ class Client
     private array $eventListeners = [];
     private $onmessage = null;
     private $onerror = null;
+    private bool $isRunning = false;
 
     /**
      * Summary of __construct
@@ -84,12 +85,19 @@ class Client
         $this->onmessage = $callback;
     }
 
+    public function close(): void
+    {
+        $this->isRunning = false;
+    }
+
     /**
      * Summary of start
      * @return void
      */
     public function start(): void
     {
+        $this->isRunning = true;
+
         while (true) {
             try {
                 $stream = $this->openStream();
@@ -135,6 +143,11 @@ class Client
     {
         $currentEvent = null;
         while (!feof($stream)) {
+            if (!$this->isRunning) {
+                stream_socket_shutdown($stream, STREAM_SHUT_RDWR);
+                exit();
+            }
+
             $line = fgets($stream);
             $line = rtrim($line, "\r\n");
 

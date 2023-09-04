@@ -39,29 +39,48 @@ php -S 127.0.0.1 server.php
 
 # Advanced 高级用法
 
-```php
+## Parameters and methods 参数与方法
 
+```php
 // construct usage
 $client = new Roiwk\SSEClient\Client('http://127.0.0.1:8888', [
     'retryInterval' => 3,
     'onmessage' => function(string $data){},
     'streamContextOptions' => [
         'http' => [
-            'method' => 'GET',
+            'method' => 'POST',
         ]
     ],
 ]);
 
 // method usage
-$client = new Roiwk\SSEClient\Client('http://127.0.0.1:8888');
-$client->onmessage(function(string $data){
-    echo $data.PHP_EOL;
+
+$client->addEventListener('ping', function ($data) {
+    echo "Received ping event: $data\n";
 });
+
+$client->onmessage(function(string $data) use ($client){
+    echo $data.PHP_EOL;
+    $iWantClose = true;
+    if ($iWantClose) {
+        $client->close();
+    }
+});
+
 $client->setRetryInterval(1);
 
-
+$client->start();
 
 ```
+
+## Tips
+>1. If the server sends messages without an event field, those messages are treated as message events.
+>1. 如果服务器发送的消息中没有 event 字段，则这些消息会被视为 message 事件。
+
+>2. The close method can be executed in the callback, for example: addEventListener and onmessage, onerror.
+>2. close方法可以在回调中执行, 例如:addEventListener和onmessage,onerror.
+
+
 
 
 
