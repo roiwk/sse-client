@@ -8,7 +8,8 @@
         "sse",
         "server sent events",
         "Server-Sent Events",
-        "SSE client"
+        "SSE client",
+        "sse client"
     ],
     "autoload": {
         "psr-4": {
