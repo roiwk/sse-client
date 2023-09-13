@@ -61,8 +61,14 @@ class Client
                     'Cache-Control: no-cache',
                     'Connection: keep-alive',
                 ],
+                // 'content' => '',
             ],
         ];
+    }
+
+    private function setStreamContextOptions(array $options): void
+    {
+        $this->streamContextOptions = array_replace_recursive($this->streamContextOptions, $options);
     }
 
     public function addEventListener(string $event, $callback): void
@@ -131,7 +137,7 @@ class Client
         if (!$stream) {
             return false;
         }
-        stream_set_timeout($stream, 1);
+        stream_set_timeout($stream, 5);
 
         return $stream;
     }
