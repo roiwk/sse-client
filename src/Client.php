@@ -44,6 +44,8 @@ class Client
 
         if (isset($options['streamContextOptions']) && is_array($options['streamContextOptions'])) {
             $this->streamContextOptions = array_replace_recursive($this->getDefaultStreamContextOptions(), $options['streamContextOptions']);
+        } else {
+            $this->streamContextOptions = $this->getDefaultStreamContextOptions();
         }
     }
 

@@ -49,12 +49,14 @@ $client = new Roiwk\SSEClient\Client('http://127.0.0.1:8888', [
     'streamContextOptions' => [
         'http' => [
             'method' => 'POST',
-        ]
+        ],
+        'content' => http_build_query(['test' => 1]),
     ],
 ]);
 
-// method usage
+更多http context选项, 详见 [php.net](https://www.php.net/manual/zh/context.http.php)
 
+// method usage
 $client->addEventListener('ping', function ($data) {
     echo "Received ping event: $data\n";
 });
