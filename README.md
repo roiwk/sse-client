@@ -41,6 +41,8 @@ php -S 127.0.0.1 server.php
 
 ## Parameters and methods 参数与方法
 
+更多http context选项, 详见[php.net](https://www.php.net/manual/zh/context.http.php)
+
 ```php
 // construct usage
 $client = new Roiwk\SSEClient\Client('http://127.0.0.1:8888', [
@@ -49,12 +51,13 @@ $client = new Roiwk\SSEClient\Client('http://127.0.0.1:8888', [
     'streamContextOptions' => [
         'http' => [
             'method' => 'POST',
+            'header' => [
+                'Content-Type: application/json',
+            ],
         ],
-        'content' => http_build_query(['test' => 1]),
+        'content' => json_encode(['test' => 1]),
     ],
 ]);
-
-更多http context选项, 详见 [php.net](https://www.php.net/manual/zh/context.http.php)
 
 // method usage
 $client->addEventListener('ping', function ($data) {
