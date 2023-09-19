@@ -122,6 +122,7 @@ class Client
                 if ($this->onerror) {
                     call_user_func($this->onerror, $exception);
                 }
+                sleep($this->retryInterval);
             }
             usleep(100);
         }
