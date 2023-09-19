@@ -12,6 +12,8 @@ class Client
     private $onerror = null;
     private bool $isRunning = false;
 
+    public const STOP_CODE = 7;
+
     /**
      * Summary of __construct
      * @param string $url
@@ -110,21 +112,20 @@ class Client
             try {
                 $stream = $this->openStream();
                 if (!$stream) {
-                    if ($this->onerror) {
-                        call_user_func($this->onerror, new \Exception('failed to open stream'));
-                    }
-                    sleep($this->retryInterval);
-                    continue;
+                    throw new \Exception('failed to open stream');
                 }
                 $this->readStream($stream);
                 fclose($stream);
             } catch (\Exception $exception) {
+                if ($exception->getCode() == self::STOP_CODE) {
+                    return;
+                }
+
                 if ($this->onerror) {
                     call_user_func($this->onerror, $exception);
                 }
                 sleep($this->retryInterval);
             }
-            usleep(100);
         }
     }
 
@@ -156,7 +157,7 @@ class Client
         while (!feof($stream)) {
             if (!$this->isRunning) {
                 stream_socket_shutdown($stream, STREAM_SHUT_RDWR);
-                exit();
+                throw new \Exception('stop Running', self::STOP_CODE);
             }
 
             $line = fgets($stream);
