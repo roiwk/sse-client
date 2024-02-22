@@ -54,8 +54,8 @@ $client = new Roiwk\SSEClient\Client('http://127.0.0.1:8888', [
             'header' => [
                 'Content-Type: application/json',
             ],
+            'content' => json_encode(['test' => 1]),
         ],
-        'content' => json_encode(['test' => 1]),
     ],
 ]);
 
